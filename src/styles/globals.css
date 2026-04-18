@@ -1,0 +1,192 @@
+/**
+ * globals.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Tailwind CSS v4 entry point.
+ * All design tokens are defined here as CSS custom properties and registered
+ * with Tailwind's @theme directive — the single source of truth for the
+ * entire design system.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+@import "tailwindcss";
+
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+@theme {
+  /* Colors */
+  --color-primary:          #0f172a;
+  --color-primary-light:    #1e293b;
+  --color-accent:           #f472b6;
+  --color-accent-light:     #fce7f3;
+  --color-cream:            #fafaf9;
+  --color-white:            #ffffff;
+
+  /* Typography — font families */
+  --font-display:    var(--font-manrope), sans-serif;
+  --font-serif:      var(--font-playfair), serif;
+
+  /* Border radius */
+  --radius-sm:       0.25rem;
+  --radius-md:       0.5rem;
+  --radius-lg:       0.75rem;
+  --radius-xl:       1rem;
+  --radius-2xl:      1.5rem;
+  --radius-3xl:      2rem;
+  --radius-4xl:      3rem;
+  --radius-full:     9999px;
+
+  /* Shadows */
+  --shadow-card:     0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-elevated: 0 10px 40px -10px rgb(15 23 42 / 0.15);
+  --shadow-hero:     0 25px 60px -10px rgb(15 23 42 / 0.25);
+
+  /* Animation durations */
+  --duration-fast:   150ms;
+  --duration-base:   300ms;
+  --duration-slow:   500ms;
+  --duration-slower: 700ms;
+}
+
+/* ─── Base Styles ────────────────────────────────────────────────────────── */
+@layer base {
+  /**
+   * Reset and base defaults.
+   * Using Manrope for all body text and Playfair Display for display headings.
+   */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    background-color: var(--color-cream);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Accessible focus ring — visible only on keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Smooth scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) transparent;
+  }
+}
+
+/* ─── Animation Keyframes ────────────────────────────────────────────────── */
+@layer utilities {
+  /**
+   * fadeInUp — entrance animation for section content.
+   * Used by the .animate-fade-in-up utility class.
+   */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /**
+   * fadeIn — simple opacity entrance.
+   */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /**
+   * shimmer — used for the "Coming Soon" pulse on the podcast section.
+   */
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+  }
+
+  /**
+   * float — gentle floating for decorative blobs.
+   */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-16px); }
+  }
+
+  /**
+   * pulse-ring — expanding ring for the podcast coming-soon beacon.
+   */
+  @keyframes pulseRing {
+    0%   { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+
+  /**
+   * marquee — horizontal scrolling ticker (used in podcast teaser).
+   */
+  @keyframes marquee {
+    from { transform: translateX(0%); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── Utility classes wiring keyframes ── */
+  .animate-fade-in-up {
+    animation: fadeInUp var(--duration-slower) ease both;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn var(--duration-slower) ease both;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--color-accent) 0%,
+      #fde7f3 40%,
+      var(--color-accent) 80%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+
+  .animate-pulse-ring {
+    animation: pulseRing 1.8s ease-out infinite;
+  }
+
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
+  }
+
+  /* ── Scroll reveal — initial hidden state ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Stagger delays for child elements ── */
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+  .stagger-3 { transition-delay: 0.3s; }
+  .stagger-4 { transition-delay: 0.4s; }
+  .stagger-5 { transition-delay: 0.5s; }
+  .stagger-6 { transition-delay: 0.6s; }
+}

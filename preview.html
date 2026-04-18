@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nyam Stella | Humanitarian & Development Strategist</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  /* ── Reset & Tokens ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #0f172a;
+    --primary-light: #1e293b;
+    --accent: #f472b6;
+    --accent-bg: rgba(244,114,182,0.08);
+    --cream: #fafaf9;
+    --white: #ffffff;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-100: #f1f5f9;
+    --font-sans: 'Manrope', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-3xl: 2rem;
+    --radius-4xl: 3rem;
+    --shadow-card: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
+    --shadow-elevated: 0 10px 40px -10px rgba(15,23,42,.15);
+    --shadow-hero: 0 25px 60px -10px rgba(15,23,42,.25);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-sans); color: var(--primary); background: var(--cream); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+  button { border: none; cursor: pointer; font-family: inherit; }
+
+  /* ── Animations ── */
+  @keyframes fadeInUp  { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn    { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes float     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  @keyframes pulseRing { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(2.4); opacity: 0; } }
+  @keyframes shimmer   { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+  @keyframes marquee   { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes pulse     { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+
+  .fade-up      { animation: fadeInUp .7s ease both; }
+  .fade-in      { animation: fadeIn .7s ease both; }
+  .anim-float   { animation: float 6s ease-in-out infinite; }
+  .anim-pulse   { animation: pulse 2s ease-in-out infinite; }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.vis { opacity: 1; transform: none; }
+  .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; }
+  .d4 { transition-delay: .4s; } .d5 { transition-delay: .5s; }
+
+  /* ── Utility ── */
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 3rem; }
+  @media(max-width:768px) { .container { padding: 0 1.5rem; } }
+  .serif { font-family: var(--font-serif); }
+  .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+  /* ─────────────────────────── HEADER ─────────────────────────── */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,250,249,.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(15,23,42,.05);
+    transition: box-shadow .3s ease;
+  }
+  header.scrolled { box-shadow: 0 2px 20px -4px rgba(15,23,42,.08); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-dots { width: 28px; height: 28px; transition: transform .3s; }
+  .brand:hover .brand-dots { transform: rotate(12deg); }
+  .brand-name { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+  nav.desktop { display: flex; gap: 2.5rem; }
+  nav.desktop a {
+    position: relative; font-size: .875rem; font-weight: 600; color: var(--slate-600);
+    transition: color .15s;
+    padding-bottom: 2px;
+  }
+  nav.desktop a::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    height: 2px; width: 0; background: var(--accent);
+    transition: width .3s ease;
+  }
+  nav.desktop a:hover { color: var(--accent); }
+  nav.desktop a:hover::after { width: 100%; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-weight: 700; cursor: pointer; transition: all .3s; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-light); }
+  .btn-secondary { background: transparent; border: 1px solid rgba(15,23,42,.2); color: var(--primary); }
+  .btn-secondary:hover { background: rgba(15,23,42,.05); }
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-accent:hover { opacity: .9; }
+  .btn-sm { padding: .625rem 1.5rem; border-radius: 999px; font-size: .875rem; }
+  .btn-md { padding: 1rem 2rem; border-radius: .75rem; font-size: 1rem; }
+  .btn-full { width: 100%; border-radius: .75rem; padding: 1rem; font-size: 1rem; }
+
+  /* ─────────────────────────── HERO ─────────────────────────── */
+  #home {
+    position: relative; overflow: hidden;
+    padding: 8rem 0 10rem;
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-blob-1 { position: absolute; top: 0; right: 0; width: 600px; height: 600px; background: rgba(244,114,182,.08); border-radius: 50%; filter: blur(100px); transform: translate(30%,-30%); }
+  .hero-blob-2 { position: absolute; bottom: 0; left: 0; width: 400px; height: 400px; background: rgba(15,23,42,.04); border-radius: 50%; filter: blur(80px); transform: translate(-30%,30%); }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
+  @media(max-width:900px) { .hero-grid { grid-template-columns: 1fr; } .hero-image { order: -1; } }
+  .hero-badge {
+    display: inline-block; padding: .375rem 1rem; border-radius: 999px;
+    background: rgba(244,114,182,.1); color: var(--accent);
+    font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .15em;
+    margin-bottom: 1.5rem;
+  }
+  .hero-h1 { font-family: var(--font-serif); font-size: clamp(2.5rem,5vw,4.5rem); font-weight: 700; line-height: 1.08; margin-bottom: 2rem; color: var(--primary); }
+  .hero-h1 em { font-style: italic; color: var(--accent); }
+  .hero-desc { color: var(--slate-600); font-size: 1.125rem; line-height: 1.75; margin-bottom: 2.5rem; max-width: 36rem; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .hero-cta-primary .arrow { transition: transform .2s; }
+  .hero-cta-primary:hover .arrow { transform: translateX(4px); }
+
+  /* Portrait */
+  .hero-image { position: relative; }
+  .portrait-frame {
+    aspect-ratio: 4/5; border-radius: 1.5rem; overflow: hidden;
+    box-shadow: var(--shadow-hero); background: #e2e8f0;
+    position: relative; z-index: 1;
+  }
+  .portrait-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .portrait-overlay { position: absolute; inset-x: 0; bottom: 0; height: 33%; background: linear-gradient(to top, rgba(15,23,42,.1), transparent); }
+  .deco-blob-tr { position: absolute; top: -3rem; right: -3rem; width: 16rem; height: 16rem; background: rgba(244,114,182,.15); border-radius: 50%; filter: blur(48px); z-index: 0; }
+  .deco-blob-bl { position: absolute; bottom: -2rem; left: -2rem; width: 12rem; height: 12rem; background: rgba(15,23,42,.06); border-radius: 50%; filter: blur(36px); z-index: 0; }
+  .hero-pill {
+    position: absolute; bottom: 1.5rem; left: -1.5rem; z-index: 20;
+    background: #fff; border-radius: 1.25rem; padding: .75rem 1.25rem;
+    box-shadow: var(--shadow-elevated); display: flex; align-items: center; gap: .75rem;
+    animation: fadeInUp .7s .5s ease both;
+  }
+  .pill-icon { width: 40px; height: 40px; border-radius: .75rem; background: rgba(244,114,182,.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .pill-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; stroke-width: 2; }
+  .pill-text-top { font-weight: 700; font-size: .875rem; color: var(--primary); line-height: 1; }
+  .pill-text-bot { font-size: .7rem; color: var(--slate-400); margin-top: 2px; }
+
+  /* ─────────────────────────── STORY ─────────────────────────── */
+  #story { padding: 6rem 0; background: #fff; }
+  .story-inner { display: flex; gap: 4rem; align-items: flex-start; }
+  @media(max-width:900px) { .story-inner { flex-direction: column; } }
+  .story-left { flex: 0 0 33%; }
+  .story-h2 { font-family: var(--font-serif); font-size: 2.25rem; font-weight: 700; color: var(--primary); margin-bottom: 1.5rem; line-height: 1.2; }
+  .accent-rule { width: 5rem; height: 6px; background: var(--accent); border-radius: 999px; margin-bottom: 2rem; }
+  .story-quote { color: var(--slate-500); font-style: italic; font-weight: 500; line-height: 1.7; border-left: 2px solid rgba(244,114,182,.3); padding-left: 1rem; }
+  .story-right { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  @media(max-width:600px) { .story-right { grid-template-columns: 1fr; } }
+  .story-paras p { color: var(--slate-600); line-height: 1.8; margin-bottom: 1.5rem; }
+  .feature-card { display: flex; gap: 1rem; padding: 1.5rem; border-radius: 1.25rem; }
+  .feature-card.primary-card { background: var(--cream); }
+  .feature-card.accent-card  { background: rgba(244,114,182,.05); }
+  .feature-icon { flex-shrink: 0; width: 48px; height: 48px; border-radius: .75rem; display: flex; align-items: center; justify-content: center; }
+  .feature-icon.dark { background: var(--primary); }
+  .feature-icon.pink { background: var(--accent); }
+  .feature-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
+  .feature-title { font-weight: 700; color: var(--primary); margin-bottom: .5rem; }
+  .feature-desc  { font-size: .875rem; color: var(--slate-600); line-height: 1.6; }
+
+  /* ─────────────────────────── PODCAST (BRICK) ─────────────────────────── */
+  #podcast { padding: 6rem 0; background: var(--cream); }
+  .section-eyebrow { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .2em; color: var(--accent); display: block; margin-bottom: .5rem; }
+  .section-h2 { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+  .podcast-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; gap: 1.5rem; flex-wrap: wrap; }
+  .view-all { display: flex; align-items: center; gap: .5rem; font-weight: 700; color: var(--primary); transition: color .15s; cursor: pointer; }
+  .view-all:hover { color: var(--accent); }
+  .view-all:hover svg { transform: translate(2px,-2px); }
+  .view-all svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; transition: transform .2s; }
+  .episode-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+  @media(max-width:900px) { .episode-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:600px) { .episode-grid { grid-template-columns: 1fr; } }
+  .episode-card {
+    background: #fff; padding: 1.5rem; border-radius: 1.25rem;
+    border: 1px solid var(--slate-100); box-shadow: var(--shadow-card);
+    transition: box-shadow .3s ease;
+  }
+  .episode-card:hover { box-shadow: var(--shadow-elevated); }
+  .ep-thumb { position: relative; aspect-ratio: 1; border-radius: .75rem; overflow: hidden; margin-bottom: 1.5rem; background: var(--slate-100); }
+  .ep-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+  .episode-card:hover .ep-thumb img { transform: scale(1.05); }
+  .ep-play-overlay {
+    position: absolute; inset: 0; background: rgba(15,23,42,.2);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .3s;
+  }
+  .episode-card:hover .ep-play-overlay { opacity: 1; }
+  .play-btn { width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0,0,0,.2); transition: transform .2s; cursor: pointer; }
+  .play-btn:hover { transform: scale(1.1); }
+  .play-btn svg { width: 24px; height: 24px; fill: var(--primary); margin-left: 3px; }
+  .ep-badge { display: inline-block; padding: .25rem .625rem; border-radius: .375rem; background: rgba(244,114,182,.1); color: var(--accent); font-size: .625rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .ep-title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--primary); margin: .75rem 0 .5rem; line-height: 1.3; }
+  .ep-desc { font-size: .875rem; color: var(--slate-500); margin-bottom: 1.5rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .ep-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--slate-100); }
+  .ep-listens { display: flex; align-items: center; gap: .5rem; color: var(--slate-400); font-size: .75rem; }
+  .ep-listens svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .ep-share { color: var(--slate-400); transition: color .15s; cursor: pointer; }
+  .ep-share:hover { color: var(--accent); }
+  .ep-share svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* ─────────────── STELLA'S PERSPECTIVE (COMING SOON) ─────────────── */
+  #stella-perspective { padding: 6rem 0; position: relative; overflow: hidden; }
+  .sp-bg { position: absolute; inset: 0; background: var(--primary); z-index: 0; }
+  .sp-glow-top { position: absolute; top: 0; left: 50%; transform: translate(-50%,-50%); width: 700px; height: 400px; background: rgba(244,114,182,.15); border-radius: 50%; filter: blur(100px); }
+  .sp-glow-br  { position: absolute; bottom: 0; right: 0; width: 400px; height: 300px; background: rgba(244,114,182,.08); border-radius: 50%; filter: blur(70px); transform: translate(25%,50%); }
+  .sp-grid-overlay { position: absolute; inset: 0; opacity: .03; background-image: linear-gradient(rgba(244,114,182,1) 1px,transparent 1px),linear-gradient(90deg,rgba(244,114,182,1) 1px,transparent 1px); background-size: 60px 60px; }
+  .sp-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 5rem; }
+  @media(max-width:900px) { .sp-inner { flex-direction: column; text-align: center; } }
+
+  /* Mic beacon */
+  .sp-beacon { position: relative; flex-shrink: 0; }
+  .sp-ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(244,114,182,.3); animation: pulseRing 1.8s ease-out infinite; }
+  .sp-ring:nth-child(2) { animation-delay: .6s; }
+  .sp-ring:nth-child(3) { animation-delay: 1.2s; }
+  .sp-mic-wrap { position: relative; width: 144px; height: 144px; border-radius: 50%; background: rgba(244,114,182,.1); border: 1px solid rgba(244,114,182,.2); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+  .sp-mic-wrap svg { width: 56px; height: 56px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+  .sp-onair { position: absolute; top: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); border: 2px solid var(--primary); animation: pulse 2s ease-in-out infinite; }
+
+  /* Copy */
+  .sp-copy { flex: 1; }
+  .sp-eyebrow-row { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+  @media(max-width:900px) { .sp-eyebrow-row { justify-content: center; } }
+  .sp-soon-badge { padding: .25rem .75rem; border-radius: 999px; background: var(--accent); color: #fff; font-size: .625rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .sp-h2-shimmer {
+    font-family: var(--font-serif); font-size: clamp(3rem,6vw,4.5rem); font-weight: 700;
+    display: block; line-height: 1.05; margin-bottom: .25rem;
+    background: linear-gradient(90deg, var(--accent) 0%, #fde7f3 40%, var(--accent) 80%);
+    background-size: 200% auto; background-clip: text; -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; animation: shimmer 3s linear infinite;
+  }
+  .sp-h2-white { font-family: var(--font-serif); font-size: clamp(3rem,6vw,4.5rem); font-weight: 700; color: #fff; display: block; line-height: 1.05; margin-bottom: 1.5rem; }
+  .sp-desc { color: var(--slate-400); font-size: 1.1rem; line-height: 1.75; max-width: 32rem; margin-bottom: 2.5rem; }
+  @media(max-width:900px) { .sp-desc { margin: 0 auto 2.5rem; } }
+  .sp-platform-label { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.5rem; }
+  @media(max-width:900px) { .sp-platform-label { justify-content: center; } }
+  .sp-platform-label svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 2; }
+  .sp-platform-label span { color: var(--slate-400); font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .15em; }
+  .sp-marquee-wrap { overflow: hidden; border-radius: .75rem; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.05); }
+  .sp-marquee-track { display: flex; animation: marquee 20s linear infinite; padding: .75rem 0; }
+  .sp-marquee-item { flex-shrink: 0; padding: 0 2rem; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; color: var(--slate-400); border-right: 1px solid rgba(255,255,255,.1); }
+
+  /* ─────────────────────────── VISION ─────────────────────────── */
+  #vision { padding: 6rem 0; }
+  .vision-card {
+    background: var(--primary); border-radius: 3rem; padding: 6rem;
+    position: relative; overflow: hidden;
+  }
+  @media(max-width:900px) { .vision-card { padding: 3rem 2rem; border-radius: 2rem; } }
+  .vision-bg-blob { position: absolute; top: 0; right: 0; width: 24rem; height: 24rem; background: var(--accent); border-radius: 50%; filter: blur(120px); opacity: .2; transform: translate(50%,-50%); pointer-events: none; }
+  .vision-bg-blob2 { position: absolute; bottom: 0; left: 0; width: 16rem; height: 16rem; background: var(--accent); border-radius: 50%; filter: blur(80px); opacity: .1; transform: translate(-50%,50%); pointer-events: none; }
+  .vision-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 4rem; }
+  @media(max-width:900px) { .vision-inner { flex-direction: column; } }
+  .vision-left { flex: 3; }
+  .vision-eyebrow-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .vision-coming-badge { padding: .25rem .75rem; border-radius: 999px; background: var(--accent); color: #fff; font-size: .625rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .vision-h2 { font-family: var(--font-serif); font-size: clamp(2rem,4vw,3.75rem); font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 2rem; }
+  .vision-h2 em { font-style: italic; font-weight: 400; }
+  .vision-desc { color: var(--slate-300); font-size: 1.125rem; line-height: 1.75; margin-bottom: 2.5rem; max-width: 40rem; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+  @media(max-width:600px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+  .stat-card { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.05); padding: 1rem; border-radius: 1.25rem; backdrop-filter: blur(8px); transition: background .3s; }
+  .stat-card:hover { background: rgba(255,255,255,.1); }
+  .stat-val { font-family: var(--font-serif); font-size: 1.875rem; font-weight: 700; color: var(--accent); }
+  .stat-lbl { font-size: .625rem; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; color: var(--slate-400); margin-top: .5rem; }
+  .vision-right { flex: 2; }
+  .waitlist-card { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); padding: 2rem; border-radius: 2rem; backdrop-filter: blur(12px); }
+  .waitlist-title { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: .75rem; }
+  .waitlist-desc { color: var(--slate-400); font-size: .875rem; line-height: 1.6; margin-bottom: 2rem; }
+  .waitlist-form { display: flex; flex-direction: column; gap: 1rem; }
+  .input-dark {
+    width: 100%; padding: 1rem 1.25rem; border-radius: .75rem;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    color: #fff; font-family: inherit; font-size: .875rem;
+    outline: none; transition: all .3s;
+  }
+  .input-dark::placeholder { color: var(--slate-500); }
+  .input-dark:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(244,114,182,.2); }
+
+  /* ─────────────────────────── TRACK RECORD ─────────────────────────── */
+  #experience { padding: 6rem 0; background: #fff; }
+  .track-header { text-align: center; margin-bottom: 5rem; }
+  .track-h2 { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem; }
+  .track-desc { color: var(--slate-500); max-width: 40rem; margin: 0 auto; line-height: 1.7; }
+  .exp-list { display: flex; flex-direction: column; gap: 1rem; }
+  .exp-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 2rem; border: 1px solid var(--slate-100); border-radius: 1.25rem;
+    transition: background .3s; cursor: pointer;
+  }
+  .exp-item:hover { background: var(--cream); }
+  .exp-item:hover .exp-arrow { color: var(--primary); transform: translateX(4px); }
+  .exp-left { display: flex; align-items: center; gap: 1.5rem; }
+  .exp-num { width: 48px; height: 48px; border-radius: 50%; background: rgba(15,23,42,.05); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .875rem; flex-shrink: 0; }
+  .exp-title { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+  .exp-sub   { font-size: .875rem; color: var(--slate-500); margin-top: 2px; }
+  .exp-arrow { color: var(--slate-300); transition: color .3s, transform .3s; }
+  .exp-arrow svg { width: 28px; height: 28px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* ─────────────────────────── NEWSLETTER ─────────────────────────── */
+  #newsletter { padding: 6rem 0; background: var(--cream); border-top: 1px solid rgba(15,23,42,.05); }
+  .newsletter-inner { max-width: 36rem; margin: 0 auto; text-align: center; }
+  .newsletter-h3 { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 1.5rem; }
+  .newsletter-desc { color: var(--slate-500); font-size: 1.125rem; line-height: 1.7; margin-bottom: 2.5rem; }
+  .newsletter-form { display: flex; gap: 1rem; }
+  @media(max-width:600px) { .newsletter-form { flex-direction: column; } }
+  .input-light {
+    flex: 1; padding: 1rem 1.5rem; border-radius: .75rem;
+    background: #fff; border: 1px solid #e2e8f0; color: var(--primary);
+    font-family: inherit; font-size: .875rem; outline: none; transition: all .3s;
+  }
+  .input-light::placeholder { color: var(--slate-400); }
+  .input-light:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(244,114,182,.15); }
+
+  /* ─────────────────────────── FOOTER ─────────────────────────── */
+  footer { padding: 3rem 0; background: #fff; border-top: 1px solid var(--slate-100); }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .footer-socials { display: flex; gap: 1.5rem; }
+  .footer-socials a { color: var(--slate-400); transition: color .15s; display: flex; }
+  .footer-socials a:hover { color: var(--accent); }
+  .footer-socials a svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .footer-copy { color: var(--slate-400); font-size: .875rem; }
+</style>
+</head>
+<body>
+
+<!-- ─────────────── HEADER ─────────────── -->
+<header id="site-header">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#home" class="brand" aria-label="Nyam Stella — home">
+        <svg class="brand-dots" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="7"  cy="7"  r="4" fill="#f472b6" opacity="0.9"/>
+          <circle cx="21" cy="7"  r="4" fill="#0f172a" opacity="0.4"/>
+          <circle cx="7"  cy="21" r="4" fill="#0f172a" opacity="0.4"/>
+          <circle cx="21" cy="21" r="4" fill="#f472b6" opacity="0.6"/>
+        </svg>
+        <span class="brand-name serif">Nyam Stella</span>
+      </a>
+      <nav class="desktop" aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="#story">My Story</a>
+        <a href="#podcast">Podcast</a>
+        <a href="#vision">Vision</a>
+      </nav>
+      <button class="btn btn-primary btn-sm" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Contact</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ─────────────── HERO ─────────────── -->
+<section id="home">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-blob-1"></div>
+    <div class="hero-blob-2"></div>
+  </div>
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Copy -->
+      <div>
+        <div class="hero-badge fade-up" style="animation-delay:.05s">Industry Leader &amp; Global Strategist</div>
+        <h1 class="hero-h1 serif fade-up" style="animation-delay:.15s">
+          Advancing Humanity as a <em>Peacebuilder</em> &amp; Development Enthusiast
+        </h1>
+        <p class="hero-desc fade-up" style="animation-delay:.25s">Nyam Stella is a dedicated development enthusiast and peacebuilder with over a decade of experience in humanitarian assistance, community engagement, and grassroots development across West Africa.</p>
+        <div class="hero-ctas fade-up" style="animation-delay:.35s">
+          <button class="btn btn-primary btn-md hero-cta-primary" onclick="document.getElementById('vision').scrollIntoView({behavior:'smooth'})">
+            Discover My Vision
+            <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn btn-secondary btn-md">Executive Profile</button>
+        </div>
+      </div>
+      <!-- Portrait -->
+      <div class="hero-image fade-in" style="animation-delay:.1s">
+        <div class="deco-blob-tr anim-float" aria-hidden="true"></div>
+        <div class="deco-blob-bl anim-float" style="animation-delay:2s" aria-hidden="true"></div>
+        <div class="portrait-frame">
+          <!-- Placeholder portrait — replace with real image -->
+          <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#f1e8e0">
+            <circle cx="200" cy="180" r="90" fill="#d4a896"/>
+            <ellipse cx="200" cy="420" rx="130" ry="100" fill="#c49482"/>
+            <text x="200" y="500" font-family="Georgia" font-size="14" fill="#94a3b8" text-anchor="middle">Replace with Stella's photo</text>
+          </svg>
+          <div class="portrait-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="hero-pill" aria-label="10+ years humanitarian impact">
+          <div class="pill-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <div class="pill-text-top">10+ Years</div>
+            <div class="pill-text-bot">Humanitarian Impact</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── STORY ─────────────── -->
+<section id="story">
+  <div class="container">
+    <div class="story-inner">
+      <div class="story-left reveal">
+        <h2 class="story-h2 serif">Driven by Purpose,<br/>Defined by Impact</h2>
+        <div class="accent-rule" aria-hidden="true"></div>
+        <blockquote class="story-quote">"My life's work is centered on improving lives at the grassroots by creating sustainable pathways for peace and development."</blockquote>
+      </div>
+      <div class="story-right">
+        <div class="story-paras reveal d2">
+          <p>Nyam Stella has built a career on the front lines of social change, specializing in conflict resolution and the empowerment of marginalized communities. Her approach integrates peacebuilding with practical development strategies to create lasting stability.</p>
+          <p>From managing large-scale humanitarian programs to advocating for policy shifts, her journey is defined by a relentless pursuit of equity. She believes that true transformation starts with understanding the unique needs of local populations.</p>
+        </div>
+        <div class="reveal d3" style="display:flex;flex-direction:column;gap:1.5rem">
+          <div class="feature-card primary-card">
+            <div class="feature-icon dark" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
+            <div>
+              <div class="feature-title">Corporate Strategy</div>
+              <div class="feature-desc">Scaling international operations with a focus on ethical growth and sustainable practices.</div>
+            </div>
+          </div>
+          <div class="feature-card accent-card">
+            <div class="feature-icon pink" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div class="feature-title">Social Innovation</div>
+              <div class="feature-desc">Developing frameworks for community empowerment and equitable resource distribution.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── PODCAST: BRICK BY BRICK ─────────────── -->
+<section id="podcast">
+  <div class="container">
+    <div class="podcast-header reveal">
+      <div>
+        <span class="section-eyebrow">A Peacebuilder's Voice</span>
+        <h2 class="section-h2 serif">BRICK by BRICK with Mmemdoo</h2>
+      </div>
+      <button class="view-all">
+        View All Episodes
+        <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </button>
+    </div>
+    <div class="episode-grid">
+      <!-- Episode 1 -->
+      <div class="episode-card reveal d1">
+        <div class="ep-thumb">
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#e8f0e0">
+            <rect width="400" height="400" fill="#d4e4c0"/>
+            <circle cx="200" cy="150" r="70" fill="#a8c880"/>
+            <rect x="140" y="240" width="120" height="130" rx="10" fill="#8aad60"/>
+            <text x="200" y="395" font-family="Georgia" font-size="13" fill="#6b8c50" text-anchor="middle">Episode 1 Image</text>
+          </svg>
+          <div class="ep-play-overlay">
+            <button class="play-btn" aria-label="Play The Future of Ethical Tech">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+        </div>
+        <span class="ep-badge">A Peacebuilder's Voice</span>
+        <h3 class="ep-title serif">The Future of Ethical Tech</h3>
+        <p class="ep-desc">Nyam Stella discusses how upcoming AI regulations will reshape social impact strategies for NGOs.</p>
+        <div class="ep-footer">
+          <div class="ep-listens">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            1.2k Listens
+          </div>
+          <button class="ep-share" aria-label="Share episode">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Episode 2 -->
+      <div class="episode-card reveal d2">
+        <div class="ep-thumb">
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#e0e8f0">
+            <rect width="400" height="400" fill="#c0d4e4"/>
+            <circle cx="200" cy="160" r="65" fill="#90b8d8"/>
+            <ellipse cx="200" cy="340" rx="100" ry="80" fill="#6898c0"/>
+            <text x="200" y="395" font-family="Georgia" font-size="13" fill="#4878a0" text-anchor="middle">Episode 2 Image</text>
+          </svg>
+          <div class="ep-play-overlay">
+            <button class="play-btn" aria-label="Play Global Philanthropy 2.0">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+        </div>
+        <span class="ep-badge">A Peacebuilder's Voice</span>
+        <h3 class="ep-title serif">Global Philanthropy 2.0</h3>
+        <p class="ep-desc">Moving beyond the check: Building sustainable partnerships in developing economies.</p>
+        <div class="ep-footer">
+          <div class="ep-listens">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            950 Listens
+          </div>
+          <button class="ep-share" aria-label="Share episode">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Episode 3 -->
+      <div class="episode-card reveal d3">
+        <div class="ep-thumb">
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#f0e0e8">
+            <rect width="400" height="400" fill="#e4c0d4"/>
+            <circle cx="200" cy="155" r="72" fill="#d090b8"/>
+            <ellipse cx="200" cy="345" rx="110" ry="85" fill="#b87098"/>
+            <text x="200" y="395" font-family="Georgia" font-size="13" fill="#985078" text-anchor="middle">Episode 3 Image</text>
+          </svg>
+          <div class="ep-play-overlay">
+            <button class="play-btn" aria-label="Play Women in Executive Roles">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+        </div>
+        <span class="ep-badge">A Peacebuilder's Voice</span>
+        <h3 class="ep-title serif">Women in Executive Roles</h3>
+        <p class="ep-desc">Nyam Stella shares her personal playbook for navigating high-level corporate boards.</p>
+        <div class="ep-footer">
+          <div class="ep-listens">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            2.1k Listens
+          </div>
+          <button class="ep-share" aria-label="Share episode">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── STELLA'S PERSPECTIVE (COMING SOON) ─────────────── -->
+<section id="stella-perspective">
+  <div class="sp-bg" aria-hidden="true">
+    <div class="sp-glow-top"></div>
+    <div class="sp-glow-br"></div>
+    <div class="sp-grid-overlay"></div>
+  </div>
+  <div class="container">
+    <div class="sp-inner">
+      <!-- Beacon -->
+      <div class="sp-beacon reveal">
+        <div class="sp-ring"></div>
+        <div class="sp-ring"></div>
+        <div class="sp-ring"></div>
+        <div class="sp-mic-wrap">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="9" y="2" width="6" height="11" rx="3"/>
+            <path d="M5 10a7 7 0 0 0 14 0"/>
+            <line x1="12" y1="19" x2="12" y2="22"/>
+            <line x1="8" y1="22" x2="16" y2="22"/>
+          </svg>
+        </div>
+        <div class="sp-onair" aria-hidden="true"></div>
+      </div>
+      <!-- Copy -->
+      <div class="sp-copy">
+        <div class="sp-eyebrow-row reveal d1">
+          <span class="section-eyebrow" style="margin-bottom:0">New Show</span>
+          <span class="sp-soon-badge">Coming Soon</span>
+        </div>
+        <span class="sp-h2-shimmer reveal d2">Stella's</span>
+        <span class="sp-h2-white reveal d3">Perspective</span>
+        <p class="sp-desc reveal d3">A thought-leadership podcast exploring peacebuilding, global development, and the stories that shape our world. Coming soon to all major platforms.</p>
+        <div class="sp-platform-label reveal d4">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+          <span>Coming to all platforms</span>
+        </div>
+        <div class="sp-marquee-wrap reveal d5" aria-label="Available platforms">
+          <div class="sp-marquee-track">
+            <span class="sp-marquee-item">Spotify</span>
+            <span class="sp-marquee-item">Apple Podcasts</span>
+            <span class="sp-marquee-item">Google Podcasts</span>
+            <span class="sp-marquee-item">YouTube</span>
+            <span class="sp-marquee-item">Spotify</span>
+            <span class="sp-marquee-item">Apple Podcasts</span>
+            <span class="sp-marquee-item">Google Podcasts</span>
+            <span class="sp-marquee-item">YouTube</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── VISION ─────────────── -->
+<section id="vision">
+  <div class="container">
+    <div class="vision-card reveal">
+      <div class="vision-bg-blob" aria-hidden="true"></div>
+      <div class="vision-bg-blob2" aria-hidden="true"></div>
+      <div class="vision-inner">
+        <div class="vision-left">
+          <div class="vision-eyebrow-row">
+            <span class="section-eyebrow" style="margin-bottom:0">The Stella Foundation</span>
+            <span class="vision-coming-badge">Coming Soon</span>
+          </div>
+          <h2 class="vision-h2 serif">Our Vision: <em>Sustainable</em> Global Impact</h2>
+          <p class="vision-desc">The Stella Foundation's mission is to catalyze grassroots development through strategic peacebuilding and resource accessibility. Our vision is a world where every community has the infrastructure and peace required to thrive independently by 2030.</p>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-val serif">2025</div><div class="stat-lbl">Official Launch</div></div>
+            <div class="stat-card"><div class="stat-val serif">10+</div><div class="stat-lbl">Partner Cities</div></div>
+            <div class="stat-card"><div class="stat-val serif">Global</div><div class="stat-lbl">Network Access</div></div>
+          </div>
+        </div>
+        <div class="vision-right">
+          <div class="waitlist-card">
+            <h4 class="waitlist-title serif">Join the Waitlist</h4>
+            <p class="waitlist-desc">Be the first to receive updates on our pilot programs and founding member opportunities.</p>
+            <div class="waitlist-form" id="waitlist-form">
+              <input class="input-dark" type="email" id="waitlist-email" placeholder="Your professional email" autocomplete="email" />
+              <button class="btn btn-accent btn-full" onclick="handleWaitlist()">
+                Notify Me
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── TRACK RECORD ─────────────── -->
+<section id="experience">
+  <div class="container">
+    <div class="track-header reveal">
+      <h2 class="track-h2 serif">The Track Record</h2>
+      <p class="track-desc">A decade of leadership across global sectors, setting the stage for transformative social impact.</p>
+    </div>
+    <div class="exp-list">
+      <div class="exp-item reveal d1">
+        <div class="exp-left">
+          <div class="exp-num">01</div>
+          <div>
+            <div class="exp-title">Chief Strategy Officer</div>
+            <div class="exp-sub">Global Tech Infrastructure • 2020 – Present</div>
+          </div>
+        </div>
+        <div class="exp-arrow">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </div>
+      <div class="exp-item reveal d2">
+        <div class="exp-left">
+          <div class="exp-num">02</div>
+          <div>
+            <div class="exp-title">Director of Corporate Social Responsibility</div>
+            <div class="exp-sub">Meridian Energy Group • 2016 – 2020</div>
+          </div>
+        </div>
+        <div class="exp-arrow">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </div>
+      <div class="exp-item reveal d3">
+        <div class="exp-left">
+          <div class="exp-num">03</div>
+          <div>
+            <div class="exp-title">MBA in Social Entrepreneurship</div>
+            <div class="exp-sub">Stanford Graduate School of Business • Class of 2015</div>
+          </div>
+        </div>
+        <div class="exp-arrow">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── NEWSLETTER ─────────────── -->
+<section id="newsletter">
+  <div class="container">
+    <div class="newsletter-inner reveal">
+      <h3 class="newsletter-h3 serif">Stay Informed</h3>
+      <p class="newsletter-desc">Join my monthly digest for insights on leadership, foundation updates, and the evolution of social enterprise.</p>
+      <div class="newsletter-form">
+        <input class="input-light" type="email" id="newsletter-email" placeholder="Email Address" autocomplete="email" />
+        <button class="btn btn-primary btn-md" style="white-space:nowrap;border-radius:.75rem" onclick="handleNewsletter()">Subscribe</button>
+      </div>
+      <div id="newsletter-success" style="display:none;margin-top:1.5rem;color:#0f172a;font-weight:600">✓ You're subscribed! Welcome to the community.</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ─────────────── FOOTER ─────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#home" class="brand" aria-label="Back to top">
+        <svg class="brand-dots" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="7"  cy="7"  r="4" fill="#f472b6" opacity="0.9"/>
+          <circle cx="21" cy="7"  r="4" fill="#0f172a" opacity="0.4"/>
+          <circle cx="7"  cy="21" r="4" fill="#0f172a" opacity="0.4"/>
+          <circle cx="21" cy="21" r="4" fill="#f472b6" opacity="0.6"/>
+        </svg>
+        <span class="brand-name serif">Nyam Stella</span>
+      </a>
+      <nav class="footer-socials" aria-label="Social media links">
+        <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </nav>
+      <p class="footer-copy">© 2025 Nyam Stella. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── Scroll spy: add "scrolled" class to header ── */
+  const hdr = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    hdr.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ── Scroll reveal via IntersectionObserver ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('vis');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── Waitlist form handler ── */
+  function handleWaitlist() {
+    const email = document.getElementById('waitlist-email').value.trim();
+    if (!email) return;
+    const form = document.getElementById('waitlist-form');
+    form.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;padding:1.5rem 0;text-align:center">
+        <div style="width:64px;height:64px;border-radius:50%;background:rgba(244,114,182,.2);display:flex;align-items:center;justify-content:center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <p style="color:#fff;font-weight:600;font-size:1rem">You're on the list!</p>
+        <p style="color:#94a3b8;font-size:.875rem">We'll be in touch when we launch.</p>
+      </div>`;
+  }
+
+  /* ── Newsletter form handler ── */
+  function handleNewsletter() {
+    const email = document.getElementById('newsletter-email').value.trim();
+    if (!email) return;
+    document.querySelector('.newsletter-form').style.display = 'none';
+    document.getElementById('newsletter-success').style.display = 'block';
+  }
+</script>
+</body>
+</html>

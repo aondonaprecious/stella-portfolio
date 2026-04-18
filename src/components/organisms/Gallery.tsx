@@ -7,8 +7,6 @@ import { FiDroplet, FiPlus, FiArrowUpRight } from "react-icons/fi";
 
 // ----------------------------------------------------------------------
 // 1. DATA LAYER (DRY Principle)
-// We extract the exact text from your HTML code, ignoring the UI image text,
-// but we structure the data to naturally flow into the 3-column masonry grid.
 // ----------------------------------------------------------------------
 const galleryData = [
   // COLUMN 1 FLOW
@@ -84,21 +82,22 @@ const gridVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.15 }, // Smooth, rolling entrance
+    transition: { staggerChildren: 0.15 },
   },
 };
 
 const cardVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 60, // Sliding up from bottom
-    rotate: -4, // Subtle off-axis spin/tilt on entry
+    y: 60,
+    rotate: -4,
   },
   show: {
     opacity: 1,
     y: 0,
-    rotate: 0, // Spins into perfect vertical alignment
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }, // High-end custom easing
+    rotate: 0,
+    // THE FIX IS HERE: Added 'as const' to lock the tuple type for Next.js
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
 
@@ -108,7 +107,6 @@ const cardVariants: Variants = {
 export const Gallery = () => {
   return (
     <section className="w-full px-4 md:px-8 lg:px-12 max-w-[1600px] mx-auto z-10 relative py-24">
-      {/* Decorative Gradient Background matching DESIGN.md rules */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[120px] pointer-events-none -z-10" />
 
       <motion.div
@@ -116,12 +114,9 @@ export const Gallery = () => {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-100px" }}
-        // CSS Columns create the masonry layout natively.
-        // gap-6/gap-8 controls the gutter between columns. space-y-8 controls vertical rhythm.
         className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8"
       >
         {galleryData.map((item) => (
-          // break-inside-avoid prevents items from being sliced across columns
           <motion.div
             key={item.id}
             variants={cardVariants}
@@ -139,7 +134,6 @@ export const Gallery = () => {
                     fill
                     className="object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  {/* Hover Spinning Icon - Elite interaction detail */}
                   <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                     <motion.div
                       whileHover={{ rotate: 360 }}
@@ -184,10 +178,9 @@ export const Gallery = () => {
               </div>
             )}
 
-            {/* RENDER: TEXT ONLY CARD (e.g., Clean Water Initiatives) */}
+            {/* RENDER: TEXT ONLY CARD */}
             {item.type === "text-icon" && (
               <div className="bg-surface-bright p-8 rounded-xl shadow-sm border border-white/50 flex flex-col justify-center items-start min-h-[300px]">
-                {/* Floating spin animation on the icon */}
                 <motion.div
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{
@@ -207,7 +200,7 @@ export const Gallery = () => {
               </div>
             )}
 
-            {/* RENDER: ACTION CARD (View Full Archive) */}
+            {/* RENDER: ACTION CARD */}
             {item.type === "action" && (
               <div className="bg-primary/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-500 ease-out p-8 flex items-center justify-center aspect-square group cursor-pointer border border-transparent hover:border-primary/10">
                 <div className="text-center flex flex-col items-center">

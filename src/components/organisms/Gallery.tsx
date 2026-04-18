@@ -1,9 +1,9 @@
 /** @format */
 
 "use client";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Image from "next/image";
-import { FiDroplet, FiPlus, FiArrowUpRight } from "react-icons/fi"; // Adhering to the thin/editorial icon request
+import { FiDroplet, FiPlus, FiArrowUpRight } from "react-icons/fi";
 
 // ----------------------------------------------------------------------
 // 1. DATA LAYER (DRY Principle)
@@ -19,7 +19,7 @@ const galleryData = [
     title: "Rural Outreach, Benue",
     description:
       "Community-led discussions addressing immediate local needs and long-term sustainable solutions.",
-    imageSrc: "/images/IMG-20260325-WA0096.jpg", // Replace with actual image
+    imageSrc: "/images/IMG-20260325-WA0096.jpg",
     aspectRatio: "aspect-[3/4]",
   },
   {
@@ -50,7 +50,7 @@ const galleryData = [
     category: "WASH Programs",
     title: "Sustainable Access",
     imageSrc: "/images/IMG-20260325-WA0066.jpg",
-    aspectRatio: "aspect-[3/3]", // Very tall portrait
+    aspectRatio: "aspect-[3/3]",
   },
 
   // COLUMN 3 FLOW
@@ -59,7 +59,7 @@ const galleryData = [
     type: "image-only",
     imageSrc: "/images/nyam stellawrorking2.jpg",
     aspectRatio: "aspect-[16/9]",
-    grayscaleHover: true, // From your HTML logic
+    grayscaleHover: true,
   },
   {
     id: "youth-empowerment",
@@ -80,7 +80,7 @@ const galleryData = [
 // ----------------------------------------------------------------------
 // 2. ANIMATION VARIANTS (Sliding & Spinning)
 // ----------------------------------------------------------------------
-const gridVariants = {
+const gridVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -88,7 +88,7 @@ const gridVariants = {
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 60, // Sliding up from bottom
